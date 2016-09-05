@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.Polodz.View.MainWindow;
 import com.Polodz.controller.Controller;
 import com.Polodz.controller.IController;
 import com.Polodz.controller.MainController;
@@ -52,6 +53,9 @@ public class GrownApplicationTests {
 //	private BtcsBeanFactory btcsBeanFactory;
 	@Mock
 	private IController IController;
+	
+	@Mock
+	private MainWindow disableWindow;
 	
 	@Before
 	public void setup(){
@@ -88,6 +92,16 @@ public class GrownApplicationTests {
         }
         
         return IController;
+    }
+	
+	@Bean
+	@Primary
+    public MainWindow iMainWindow() {
+        if (IController==null) {
+        	disableWindow=mock(MainWindow.class);
+        }
+        
+        return disableWindow;
     }
 
 }
