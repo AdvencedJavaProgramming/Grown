@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- <context:annotation-config /> -->
+
+	<bean id="IController" class="com.Polodz.controller.Controller" />
+
+	<!-- <bean id="MembersDAOPrimitive" class="com.Polodz.model.MembersDAO" scope="prototype" /> -->
+	
+	<bean id="MembersFactory" class="com.Polodz.model.MembersFactory">
+		<property name="type" value="com.Polodz.model.MembersDAO" />
+	</bean>
+
+	<!-- <bean id="MembersDAO" factory-method="create" factory-bean="MembersFactory">
+		<constructor-arg ref="IController" />
+	</bean> -->
+
+	<bean id="MembersDAOF" class="com.Polodz.model.MembersBeanFactory" name="PersonalDAO">
+		<property name="membersDaosFactory" ref="MembersFactory" />
+		<constructor-arg ref="IController" /> 
+	</bean>
+
+	<bean id="mainController" class="com.Polodz.controller.MainController">
+		<property name="membersDAO" ref="MembersDAOF" />
+		<property name="telentController" ref="IController" />
+	</bean>  
+
+
+	<context:component-scan base-package="com.Polodz.Controller" />
+	<context:component-scan base-package="com.Polodz.View" />
+
+
+
+
+</beans>

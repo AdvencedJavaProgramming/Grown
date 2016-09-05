@@ -1,0 +1,12 @@
+.mvn
+.settings/
+target/
+
+.project  
+.classpath
+.springBeans
+app.groovy
+miglayout15-swing.jar
+miglayout-src.zip
+mvnw
+mvnw.cmd
