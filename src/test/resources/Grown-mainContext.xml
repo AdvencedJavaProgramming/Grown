@@ -7,7 +7,11 @@
 	<bean class="com.Polodz.GrownApplicationTests"/>
 	<!-- <context:annotation-config /> -->
 
-	<!-- <bean id="IController" class="com.Polodz.controller.Controller" /> -->
+	<!-- <bean id="TelnetConnector" class="com.Polodz.service.TelnetConnector" /> -->
+
+	<bean id="IController" class="com.Polodz.controller.Controller" >
+		<constructor-arg ref="TelnetConnector" />
+	</bean>
 
 	<!-- <bean id="MembersDAOPrimitive" class="com.Polodz.model.MembersDAO" scope="prototype" /> -->
 	
@@ -21,12 +25,12 @@
 
 	<bean id="MembersDAOF" class="com.Polodz.model.MembersBeanFactory" name="PersonalDAO">
 		<property name="membersDaosFactory" ref="MembersFactory" />
-		<constructor-arg ref="iController" /> 
+		<constructor-arg ref="IController" /> 
 	</bean>
 
 	<bean id="mainController" class="com.Polodz.controller.MainController">
 		<property name="membersDAO" ref="MembersDAOF" />
-		<property name="telentController" ref="iController" />
+		<property name="telentController" ref="IController" />
 	</bean>  
 
 
