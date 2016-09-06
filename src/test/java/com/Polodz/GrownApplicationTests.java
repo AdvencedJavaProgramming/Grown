@@ -3,101 +3,94 @@ package com.Polodz;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.dao.support.DaoSupport;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import com.Polodz.View.MainWindow;
-import com.Polodz.controller.Controller;
-import com.Polodz.controller.IController;
 import com.Polodz.controller.MainController;
-import com.Polodz.model.MembersBeanFactory;
-import com.Polodz.model.MembersDAO;
+import com.Polodz.model.IItem;
+import com.Polodz.service.ITelnet;
+import com.Polodz.service.TelnetConnector;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import static org.mockito.Mockito.*;
 
-import org.mockito.runners.MockitoJUnitRunner;
+import java.util.List;
 
-@SuppressWarnings("deprecation")
-//@RunWith(MockitoJUnitRunner.class)
-
-@RunWith(SpringJUnit4ClassRunner.class)//(SpringJUnit4ClassRunner.class)//(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/test/resources/Grown-mainContext.xml"}, loader=CustomSpringApplicationContextLoader.class)
 @SpringBootTest
-//@ActiveProfiles("test")
-//@ContextConfiguration(locations = {"classpath*:spring/mocksContext.xml"})
-//@ContextConfiguration
-//@ActiveProfiles("test")
 @Configuration
+//@ActiveProfiles("test")
 public class GrownApplicationTests {
-	private ClassPathXmlApplicationContext context;
-	//@InjectMocks
+
 	@Autowired
 	private MainController mainControler;
-	//@InjectMocks
-	@Autowired
-	private MembersDAO mtcDAO;
-//	private BtcsBeanFactory btcsBeanFactory;
+
+//	@Autowired
+//	private MembersDAO mtcDAO;
+//	private BeanFactory BeanFactory;
 	@Mock
-	private IController IController;
+	private ITelnet telnetHandler;
 	
 	@Mock
 	private MainWindow disableWindow;
 	
 	@Before
 	public void setup(){
-		MockitoAnnotations.initMocks(this); //@RunWith(MockitoJUnitRunner.class).
-		//context= new ClassPathXmlApplicationContext("file:src/EasyMTC-contextTestBF.xml");//file:classpath*
-		//mtcDAO= context.getBean("mtcDAOF",MtcDAO.class);
-		//mainControler= context.getBean("mainController",MainController.class);
-		//mtcDAO= (MtcDAO)context.getBean("mtcDAO");
-		
-		when(IController.execute("list")).thenReturn("test\ntest\ntest\ntest\ntest\ntest");
-		when(IController.execute("test items")).thenReturn("mtest\nmtest\nmtest\nmtest\nmtest\nmtest");
-		reset(IController);
-		//btcsBeanFactory= context.getBean(BtcsBeanFactory.class);
+		MockitoAnnotations.initMocks(this); 		
+		when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
+		when(telnetHandler.get("test")).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
+		reset(telnetHandler);
+		//BeanFactory= context.getBean(BeanFactory.class);
 	}
-	@SuppressWarnings("deprecation")
+
 	@Test
-	public void contextLoads() {
+	public void membersLoad() {
+		this.serverResponse();
+		Assert.assertNotNull(mainControler.getMembersDAO().getMembersAudience());
 		Assert.assertEquals(mainControler.listAll().size(), 6);
-		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test");
-		Assert.assertEquals(mainControler.getMtcResponse("list"), "test\ntest\ntest\ntest\ntest\ntest");
-		//Assert.assertEquals(mtcDAO.getALL().length, 86);
-		//Assert.assertEquals(mtcDAO.getALL()[85].getName(), "bsc183"); //Aware of spaces!
-		//Assert.assertEquals(btcsBeanFactory.getObjectType(), MtcDAO.class);
+		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test1");
+		Assert.assertEquals(mainControler.listAll().get(1).getItems().get(1).getName(),"mtest1");
+		//Assert.assertEquals(BeanFactory.getObjectType(), DAO.class);
+	}
+	
+	
+	public void serverResponse() {
+		Assert.assertEquals(mainControler.getServerResponse("list"), "test\ntest1\ntest2\ntest3\ntest4\ntest5");
+	}
+	
+	@Test
+	public void deleteMemberProduct() {
+		Integer idOfFiredMember= mainControler.listAll().size()-1;
+		List<? extends IItem> basket = mainControler.getMembersDAO().getMembersAudience().get(idOfFiredMember).getItems();
+		Integer lastBasketSize = basket.size() - 2;
+		mainControler.deleteMembersProduct (new Long(idOfFiredMember),0);
+		mainControler.deleteMembersProduct (new Long(idOfFiredMember),4);
+		Assert.assertEquals(lastBasketSize,new Integer(basket.size()));
 	}
 	
 	@Bean
 	@Primary
-    public IController iController() {
-        if (IController==null) {
-        	IController=mock(Controller.class);
-        	when(IController.execute("list")).thenReturn("test\ntest\ntest\ntest\ntest\ntest"
-        			+ "");
-        	
+    public ITelnet TelnetConnector() {
+        if (telnetHandler==null) {
+        	telnetHandler=mock(TelnetConnector.class);
+        	when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
+    		when(telnetHandler.get(startsWith("test"))).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
         }
-        
-        return IController;
+        return telnetHandler;
     }
 	
 	@Bean
 	@Primary
     public MainWindow iMainWindow() {
-        if (IController==null) {
+        if (telnetHandler==null) {
         	disableWindow=mock(MainWindow.class);
         }
         

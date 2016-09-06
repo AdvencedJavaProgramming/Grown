@@ -49,8 +49,8 @@ public class MembersFactory <T extends IDao> implements IFactory {
 			String memmbersName = memberNameSrcLine[i].split(" ")[0];
 		    //log.info(memmbersName);
 		    Member memberToAdd= new Member();
-	    	String itemsMemeber = arg.execute(memmbersName+" items");
-	    	//log.info(itemsMemeber);
+	    	String itemsMemeber = arg.execute(memmbersName);
+	    	//log.info(memmbersName+itemsMemeber);
 	    	List<IItem> newMemebersBasket= new ArrayList<>(); 
 		    memberToAdd.setItems(newMemebersBasket);
 		    if (itemsMemeber!=null) {
@@ -58,7 +58,7 @@ public class MembersFactory <T extends IDao> implements IFactory {
 			    	Movie toAdd = new Movie();
 			    	toAdd.setName(itemName);
 			    	memberToAdd.addItems().add(toAdd);
-			    	log.info(itemName);
+			    	//log.info(itemName);
 		    	});
 	    	}
 	    	//memberToAdd.getItems().forEach(action);

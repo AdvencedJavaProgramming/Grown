@@ -54,7 +54,7 @@ public class MainWindow extends javax.swing.JFrame {
 		this.mainController = mainController;
 		setNimbus();
 		initComponents();
-		this.setCentralText(((MainController) mainController).getLastMtcResponse() + "\n");
+		this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class MainWindow extends javax.swing.JFrame {
 	@SuppressWarnings("unchecked")
 	private void initComponents() {
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		setTitle("EasyMTC");
+		setTitle("Grown");
 		getContentPane().setLayout(new MigLayout("", "[4px:6px:11px][100px:150px:180px,grow][8px:18:25px][grow][61px]",
 				"[2px:6px:11px][25px:25:25px][][2px:6px:11px][100px:386px,grow][25px:40:60]"));
 
@@ -109,7 +109,7 @@ public class MainWindow extends javax.swing.JFrame {
 	                	//rootNode.remove(0);
 	                	//node.removeAllChildren();
 	                	//node.remove(0);
-	                	String reply=((MainController) mainController).getMtcResponse((String)node.getUserObject());
+	                	String reply=((MainController) mainController).getServerResponse((String)node.getUserObject());
 	                	setCentralText(reply);
 	                }
 	        }
@@ -149,7 +149,7 @@ public class MainWindow extends javax.swing.JFrame {
 						int start = jTextArea1.getLineStartOffset(line);
 						int end = jTextArea1.getLineEndOffset(line);
 						String text = jTextArea1.getDocument().getText(start, end - (start));
-						setCentralText("\n" + ((MainController) mainController).getMtcResponse(text));
+						setCentralText("\n" + ((MainController) mainController).getServerResponse(text));
 
 					} catch (BadLocationException e1) {
 						// TODO Auto-generated catch block
