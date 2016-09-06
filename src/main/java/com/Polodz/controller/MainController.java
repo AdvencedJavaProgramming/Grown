@@ -3,6 +3,7 @@ package com.Polodz.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import com.Polodz.service.FilmWebApiService;
 import com.Polodz.service.WebService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class MainController implements IMainController {
 
     @Autowired
     private IController telnetController;
+
+    @Autowired
+    private FilmWebApiService filmWebApiService;
 
     @Autowired
     private MainWindow mainView;
@@ -126,6 +130,15 @@ public class MainController implements IMainController {
         bufforToWork += "Audience: " + this.getServerResponse(chosenItem.getId().toString()) + "\n";
         //bufforToWork+="Rate: "+this.filmWebMovie.getRate()+"\n";
         //bufforToWork+="Interested: "+this.filmWebMovie.getInterested()+"\n";
+        //
+        //Bigos:
+        //
+        //Metody udostpenia serwis "filmWebApiService"
+       // jako parametry przyjmują te funkcje nazwy filmow, wyszukuja w bazie najbardziej zblizonej tytułu i zwaaraca do niej wartosci[ocene i ilosc głosów].
+        //tytuły fajnie zeby były jakoa tako zblizone, bo jak beda jakies typu "asffdg" to moze sie wypierdolic[ewentualnie zwraca "BrakDanych"
+        //
+        //
+
         return bufforToWork;
     }
 
