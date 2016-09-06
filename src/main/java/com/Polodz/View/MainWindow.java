@@ -54,7 +54,7 @@ public class MainWindow extends javax.swing.JFrame {
 		this.mainController = mainController;
 		setNimbus();
 		initComponents();
-		this.setCentralText(((MainController) mainController).getLastMtcResponse() + "\n");
+		this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class MainWindow extends javax.swing.JFrame {
 	                	//rootNode.remove(0);
 	                	//node.removeAllChildren();
 	                	//node.remove(0);
-	                	String reply=((MainController) mainController).getMtcResponse((String)node.getUserObject());
+	                	String reply=((MainController) mainController).getServerResponse((String)node.getUserObject());
 	                	setCentralText(reply);
 	                }
 	        }
@@ -149,7 +149,7 @@ public class MainWindow extends javax.swing.JFrame {
 						int start = jTextArea1.getLineStartOffset(line);
 						int end = jTextArea1.getLineEndOffset(line);
 						String text = jTextArea1.getDocument().getText(start, end - (start));
-						setCentralText("\n" + ((MainController) mainController).getMtcResponse(text));
+						setCentralText("\n" + ((MainController) mainController).getServerResponse(text));
 
 					} catch (BadLocationException e1) {
 						// TODO Auto-generated catch block

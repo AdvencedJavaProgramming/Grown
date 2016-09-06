@@ -18,6 +18,8 @@ import com.Polodz.controller.Controller;
 import com.Polodz.controller.IController;
 import com.Polodz.controller.MainController;
 import com.Polodz.model.MembersDAO;
+import com.Polodz.service.ITelnet;
+import com.Polodz.service.TelnetConnector;
 
 import org.junit.Assert;
 import static org.mockito.Mockito.*;
@@ -28,7 +30,6 @@ import static org.mockito.Mockito.*;
 @Configuration
 //@ActiveProfiles("test")
 public class GrownApplicationTests {
-	private ClassPathXmlApplicationContext context;
 
 	@Autowired
 	private MainController mainControler;
@@ -37,7 +38,7 @@ public class GrownApplicationTests {
 	private MembersDAO mtcDAO;
 //	private BeanFactory BeanFactory;
 	@Mock
-	private IController IController;
+	private ITelnet telnetHandler;
 	
 	@Mock
 	private MainWindow disableWindow;
@@ -45,35 +46,42 @@ public class GrownApplicationTests {
 	@Before
 	public void setup(){
 		MockitoAnnotations.initMocks(this); 		
-		when(IController.execute("list")).thenReturn("test\ntest\ntest\ntest\ntest\ntest");
-		when(IController.execute("test items")).thenReturn("mtest\nmtest\nmtest\nmtest\nmtest\nmtest");
-		reset(IController);
+		when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
+		when(telnetHandler.get("test")).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
+		reset(telnetHandler);
 		//BeanFactory= context.getBean(BeanFactory.class);
 	}
 
 	@Test
-	public void contextLoads() {
+	public void membersLoad() {
+		this.serverResponse();
+		Assert.assertNotNull(mainControler.getMembersDAO().getMembersAudience());
 		Assert.assertEquals(mainControler.listAll().size(), 6);
-		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test");
-		Assert.assertEquals(mainControler.getMtcResponse("list"), "test\ntest\ntest\ntest\ntest\ntest");
+		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test1");
+		//Assert.assertEquals(mainControler.listAll().get(1).getItems().get(1).getName(),"mtest1");
 		//Assert.assertEquals(BeanFactory.getObjectType(), DAO.class);
+	}
+	
+	
+	public void serverResponse() {
+		Assert.assertEquals(mainControler.getServerResponse("list"), "test\ntest1\ntest2\ntest3\ntest4\ntest5");
 	}
 	
 	@Bean
 	@Primary
-    public IController iController() {
-        if (IController==null) {
-        	IController=mock(Controller.class);
-        	when(IController.execute("list")).thenReturn("test\ntest\ntest\ntest\ntest\ntest"
-        			+ "");
+    public ITelnet TelnetConnector() {
+        if (telnetHandler==null) {
+        	telnetHandler=mock(TelnetConnector.class);
+        	when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
+    		when(telnetHandler.get("test")).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
         }
-        return IController;
+        return telnetHandler;
     }
 	
 	@Bean
 	@Primary
     public MainWindow iMainWindow() {
-        if (IController==null) {
+        if (telnetHandler==null) {
         	disableWindow=mock(MainWindow.class);
         }
         

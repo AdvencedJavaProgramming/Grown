@@ -64,7 +64,7 @@ public class MainController implements IMainController {
     }
 	
 	@Bean
-	public MainWindow getMtcView() {
+	public MainWindow getView() {
 		if (mainView==null) {
 			this.mainView=new MainWindow(this);
 			if (membersDAO.getMembersAudience()!=null)
@@ -83,11 +83,11 @@ public class MainController implements IMainController {
 		log.info(membersDAO.getALL().length);
         return this.mainView;
     }
-	public String getMtcResponse(String input) {
+	public String getServerResponse(String input) {
 		return telentController.execute(input);
 	}
 	
-	public String getLastMtcResponse() {
+	public String getLastServerResponse() {
 		return ((Controller) telentController).getLastListing();
 	}
 	public List<IMember> listAll() {

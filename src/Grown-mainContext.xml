@@ -6,7 +6,11 @@
 
 	<!-- <context:annotation-config /> -->
 
-	<bean id="IController" class="com.Polodz.controller.Controller" />
+	<bean id="TelnetConnector" class="com.Polodz.service.TelnetConnector" />
+
+	<bean id="IController" class="com.Polodz.controller.Controller" >
+		<constructor-arg ref="TelnetConnector" />
+	</bean>
 
 	<!-- <bean id="MembersDAOPrimitive" class="com.Polodz.model.MembersDAO" scope="prototype" /> -->
 	
