@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JTextPane;
 import java.awt.SystemColor;
 import net.miginfocom.swing.MigLayout;
+import scala.annotation.meta.setter;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -54,6 +55,7 @@ public class MainWindow extends javax.swing.JFrame {
 		this.mainController = mainController;
 		setNimbus();
 		initComponents();
+		//mainController.setRentWebItems("Tst");
 		this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
 	}
 

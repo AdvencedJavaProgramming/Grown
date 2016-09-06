@@ -27,7 +27,7 @@ public class GrownApplication {
 		//Banner.Mode bannerMode= new Banner.Mode(OFF);
 		new SpringApplicationBuilder(GrownApplication.class)
         .headless(false)
-        .web(false) 
+        .web(true) 
         //.bannerMode(Banner.Mode.OFF)
         .run(args);
 	}

@@ -14,9 +14,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.Polodz.View.MainWindow;
 import com.Polodz.model.MembersFactory;
+import com.Polodz.model.StringWebData;
 import com.Polodz.model.IMember;
 import com.Polodz.model.MembersDAO;
 import com.Polodz.service.TelnetConnector;
@@ -37,9 +42,14 @@ public class MainController implements IMainController {
 	public IController telentController;
 	
 	@Autowired
+	public WebMovieListController webDataHandler;
+	
+	@Autowired
 	public MainWindow mainView;
+
 	
 	public MainController() {
+		//this.setRentWebItems("test");
 	}
 
 	public MembersDAO getMembersDAO() {
@@ -57,10 +67,10 @@ public class MainController implements IMainController {
 		this.telentController = telentController;
 		//log.info(getMtcResponse("list"));
 	}	
-	//@Bean
-    public MainWindow frame() {
-    	log.info(membersDAO.getALL().length);
-		return this.mainView;
+	
+	@Bean
+    public WebMovieListController getWebMovieListController() {
+		return new WebMovieListController();
     }
 	
 	@Bean
@@ -70,19 +80,42 @@ public class MainController implements IMainController {
 			if (membersDAO.getMembersAudience()!=null)
 				membersDAO.getMembersAudience()./*parallelStream().*/forEach(
 						cur->{ 
-							int currentIndex=mainView.addToTree(cur.getName());
+							String currentName=cur.getName();
+							String webStringBuffor=null;
+							int currentIndex=mainView.addToTree(currentName);
 							if (cur.getItems()!=null)
 								cur.getItems()/*.parallelStream()*/.forEach(
-										current->mainView
-											.addToSelectedSubTree(current.getName()
-													,currentIndex)
-										);
+										current->{ 
+											mainView.addToSelectedSubTree(current.getName()
+													,currentIndex);
+//											if(currentName == "Main_Store") {
+//												webStringBuffor+=current.getName()+"\n";
+//											}
+										});
+							
+							//if (webStringBuffor!=null) {
+							//	this.setRentWebItems(webStringBuffor);
+							//}
 						}
 						);
 		}
 		log.info(membersDAO.getALL().length);
         return this.mainView;
     }
+	
+//	@RequestMapping(method = RequestMethod.GET)
+//	private ModelAndView Stringgg(String string) {
+//		return new ModelAndView().addObject("testString", string);
+//
+//	}
+//	
+	public void setRentWebItems(String input) {
+		StringWebData stringWebData = new StringWebData();
+		stringWebData.setContent("tes");
+//		this.webDataHandler.stringForm((Model) Stringgg("tes"));
+		this.webDataHandler.stringSubmit(stringWebData);	
+	}
+	
 	public String getServerResponse(String input) {
 		return telentController.execute(input);
 	}

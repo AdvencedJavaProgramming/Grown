@@ -33,7 +33,7 @@ public class Runner implements CommandLineRunner {
 
             @Override
             public void run() {
-            	controllerToView.frame().setVisible(true);
+            	controllerToView.getView().setVisible(true);
             }
         });
     }
