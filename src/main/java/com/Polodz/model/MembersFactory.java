@@ -58,7 +58,7 @@ public class MembersFactory <T extends IDao> implements IFactory {
 			    	Movie toAdd = new Movie();
 			    	toAdd.setName(itemName);
 			    	memberToAdd.addItems().add(toAdd);
-			    	log.info(itemName);
+			    	//log.info(itemName);
 		    	});
 	    	}
 	    	//memberToAdd.getItems().forEach(action);

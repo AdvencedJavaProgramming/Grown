@@ -63,7 +63,7 @@ public class MainWindow extends javax.swing.JFrame {
 	@SuppressWarnings("unchecked")
 	private void initComponents() {
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		setTitle("EasyMTC");
+		setTitle("Grown");
 		getContentPane().setLayout(new MigLayout("", "[4px:6px:11px][100px:150px:180px,grow][8px:18:25px][grow][61px]",
 				"[2px:6px:11px][25px:25:25px][][2px:6px:11px][100px:386px,grow][25px:40:60]"));
 

@@ -97,7 +97,7 @@ public class MainController implements IMainController {
 
 	@Override
 	public void deleteMembersProduct(Long memberId,Integer index) {
-		this.membersDAO.getMembersAudience().get(memberId.intValue()).addItems().remove(index);
+		this.membersDAO.getMembersAudience().get(memberId.intValue()).addItems().remove((int)index);
 		
 	}
 

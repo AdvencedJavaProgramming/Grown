@@ -10,19 +10,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.Polodz.View.MainWindow;
-import com.Polodz.controller.Controller;
-import com.Polodz.controller.IController;
 import com.Polodz.controller.MainController;
-import com.Polodz.model.MembersDAO;
+import com.Polodz.model.IItem;
 import com.Polodz.service.ITelnet;
 import com.Polodz.service.TelnetConnector;
 
 import org.junit.Assert;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"file:src/test/resources/Grown-mainContext.xml"}, loader=CustomSpringApplicationContextLoader.class)
@@ -34,8 +33,8 @@ public class GrownApplicationTests {
 	@Autowired
 	private MainController mainControler;
 
-	@Autowired
-	private MembersDAO mtcDAO;
+//	@Autowired
+//	private MembersDAO mtcDAO;
 //	private BeanFactory BeanFactory;
 	@Mock
 	private ITelnet telnetHandler;
@@ -58,7 +57,7 @@ public class GrownApplicationTests {
 		Assert.assertNotNull(mainControler.getMembersDAO().getMembersAudience());
 		Assert.assertEquals(mainControler.listAll().size(), 6);
 		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test1");
-		//Assert.assertEquals(mainControler.listAll().get(1).getItems().get(1).getName(),"mtest1");
+		Assert.assertEquals(mainControler.listAll().get(1).getItems().get(1).getName(),"mtest1");
 		//Assert.assertEquals(BeanFactory.getObjectType(), DAO.class);
 	}
 	
@@ -67,13 +66,23 @@ public class GrownApplicationTests {
 		Assert.assertEquals(mainControler.getServerResponse("list"), "test\ntest1\ntest2\ntest3\ntest4\ntest5");
 	}
 	
+	@Test
+	public void deleteMemberProduct() {
+		Integer idOfFiredMember= mainControler.listAll().size()-1;
+		List<? extends IItem> basket = mainControler.getMembersDAO().getMembersAudience().get(idOfFiredMember).getItems();
+		Integer lastBasketSize = basket.size() - 2;
+		mainControler.deleteMembersProduct (new Long(idOfFiredMember),0);
+		mainControler.deleteMembersProduct (new Long(idOfFiredMember),4);
+		Assert.assertEquals(lastBasketSize,new Integer(basket.size()));
+	}
+	
 	@Bean
 	@Primary
     public ITelnet TelnetConnector() {
         if (telnetHandler==null) {
         	telnetHandler=mock(TelnetConnector.class);
         	when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
-    		when(telnetHandler.get("test")).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
+    		when(telnetHandler.get(startsWith("test"))).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
         }
         return telnetHandler;
     }
