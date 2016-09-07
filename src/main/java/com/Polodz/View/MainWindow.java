@@ -173,9 +173,12 @@ public class MainWindow extends javax.swing.JFrame {
 		btnNewButton_3 = new JButton("Audit");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				setCentralText(mainController.getAuditRaport());
-
+				Thread t1 = new Thread(new Runnable() {
+				    public void run()
+				    {
+				    	setCentralText(mainController.getAuditRaport());// code goes here.
+				    }});  
+				t1.start();
 			}
 		});
 		getContentPane().add(btnNewButton_3, "cell 3 1");
