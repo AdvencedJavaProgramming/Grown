@@ -1,33 +1,19 @@
 package com.Polodz.controller;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-
-import javax.annotation.Resource;
 
 import com.Polodz.service.WebService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.Polodz.View.MainWindow;
-import com.Polodz.model.MembersFactory;
-import com.Polodz.model.StringWebData;
 import com.Polodz.model.Config;
 import com.Polodz.model.IItem;
 import com.Polodz.model.IMember;
 import com.Polodz.model.MembersDAO;
-import com.Polodz.service.TelnetConnector;
 
 @Configuration
 @org.springframework.stereotype.Controller
@@ -44,7 +30,7 @@ public class MainController implements IMainController {
     private MembersDAO membersDAO;
 
     @Autowired
-    private IController telentController;
+    private IController telnetController;
 
     @Autowired
     private MainWindow mainView;
@@ -62,12 +48,12 @@ public class MainController implements IMainController {
         this.membersDAO = membersDAO;
     }
 
-    public IController getTelentController() {
-        return telentController;
+    public IController getTelnetController() {
+        return telnetController;
     }
 
-    public void setTelentController(IController telentController) {
-        this.telentController = telentController;
+    public void setTelnetController(IController telnetController) {
+        this.telnetController = telnetController;
         //log.info(getMtcResponse("list"));
     }
 
@@ -112,11 +98,11 @@ public class MainController implements IMainController {
     }
 
     public String getServerResponse(String input) {
-        return telentController.execute(input);
+        return telnetController.execute(input);
     }
 
     public String getLastServerResponse() {
-        return ((Controller) telentController).getLastListing();
+        return ((Controller) telnetController).getLastListing();
     }
 
     public List<IMember> listAll() {

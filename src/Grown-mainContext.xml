@@ -29,7 +29,7 @@
 
 	<bean id="mainController" class="com.Polodz.controller.MainController">
 		<property name="membersDAO" ref="MembersDAOF" />
-		<property name="telentController" ref="IController" />
+		<property name="telnetController" ref="IController" />
 	</bean>  
 
 
