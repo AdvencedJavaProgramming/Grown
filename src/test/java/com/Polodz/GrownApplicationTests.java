@@ -46,7 +46,7 @@ public class GrownApplicationTests {
 	public void setup(){
 		MockitoAnnotations.initMocks(this); 		
 		when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
-		when(telnetHandler.get("test")).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
+		when(telnetHandler.get("test")).thenReturn("mtest 1\nmtest1 2\nmtest2 3\nmtest3 4\nmtest4 5\nmtest5 6");
 		reset(telnetHandler);
 		//BeanFactory= context.getBean(BeanFactory.class);
 	}
@@ -82,7 +82,7 @@ public class GrownApplicationTests {
         if (telnetHandler==null) {
         	telnetHandler=mock(TelnetConnector.class);
         	when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
-    		when(telnetHandler.get(startsWith("test"))).thenReturn("mtest\nmtest1\nmtest2\nmtest3\nmtest4\nmtest5");
+    		when(telnetHandler.get(startsWith("test"))).thenReturn("mtest 1\nmtest1 2\nmtest2 3\nmtest3 4\nmtest4 5\nmtest5 6");
         }
         return telnetHandler;
     }

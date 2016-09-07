@@ -44,9 +44,9 @@ public class MembersFactory <T extends IDao> implements IFactory {
 		arg.execute(" ");
 		String membersNameList = arg.execute("list");
 		//log.info(membersNameList+"Spis");
-		String[] memberNameSrcLine= membersNameList.split("\\r?\\n");
-		for (int i = 0; i < memberNameSrcLine.length; i++) {
-			String memmbersName = memberNameSrcLine[i].split(" ")[0];
+		String[] memberNameSourceLine= membersNameList.split("\\r?\\n");
+		for (int i = 0; i < memberNameSourceLine.length; i++) {
+			String memmbersName = memberNameSourceLine[i].split(" ")[0];
 		    //log.info(memmbersName);
 		    Member memberToAdd= new Member();
 	    	String itemsMemeber = arg.execute(memmbersName);
@@ -55,8 +55,10 @@ public class MembersFactory <T extends IDao> implements IFactory {
 		    memberToAdd.setItems(newMemebersBasket);
 		    if (itemsMemeber!=null) {
 		    	Arrays.stream(itemsMemeber.split("\\r?\\n")).forEach( itemName -> {
+		    		String[] itemNameProperties = itemName.split(" ");
 			    	Movie toAdd = new Movie();
-			    	toAdd.setName(itemName);
+			    	toAdd.setName(itemNameProperties[0]);
+			    	toAdd.setId(new Long(itemNameProperties[1]));
 			    	memberToAdd.addItems().add(toAdd);
 			    	//log.info(itemName);
 		    	});
@@ -64,6 +66,7 @@ public class MembersFactory <T extends IDao> implements IFactory {
 	    	//memberToAdd.getItems().forEach(action);
 	    	//log.info(((Movie) memberToAdd.addItems().get(0)).getName()+"TOOOO");
 	    	//log.info(memberToAdd.getItems().get(0).getName());
+		    memberToAdd.setId(i);
 	    	memberToAdd.setName(memmbersName);
 	    	result.addNode(memberToAdd);
 		}

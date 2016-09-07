@@ -56,6 +56,7 @@ public class MainWindow extends javax.swing.JFrame {
 		setNimbus();
 		initComponents();
 		//mainController.setRentWebItems("Tst");
+		this.mainController.getServerResponse(" ");
 		this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
 	}
 
@@ -72,7 +73,9 @@ public class MainWindow extends javax.swing.JFrame {
 		btnNewButton = new JButton("Status");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+				DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
+				DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent();
+				setCentralText(mainController.getItemInfo(new Long(rootNode.getIndex(nodeParent)),nodeParent.getIndex(node)));
 	               
 			}
 		});
@@ -170,7 +173,9 @@ public class MainWindow extends javax.swing.JFrame {
 		btnNewButton_3 = new JButton("Audit");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+
+				setCentralText(mainController.getAuditRaport());
+
 			}
 		});
 		getContentPane().add(btnNewButton_3, "cell 3 1");
