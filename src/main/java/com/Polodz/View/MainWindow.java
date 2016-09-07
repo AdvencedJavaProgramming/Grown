@@ -176,7 +176,7 @@ public class MainWindow extends javax.swing.JFrame {
 				Thread t1 = new Thread(new Runnable() {
 				    public void run()
 				    {
-				    	setCentralText(mainController.getAuditRaport());// code goes here.
+				    	setCentralText(mainController.getAuditRaport());
 				    }});  
 				t1.start();
 			}
