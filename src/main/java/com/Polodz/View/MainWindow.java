@@ -12,6 +12,7 @@ import javax.swing.JTree;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import java.awt.SystemColor;
+
 import net.miginfocom.swing.MigLayout;
 import scala.annotation.meta.setter;
 
@@ -32,103 +33,93 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 
 
-
 //@org.springframework.stereotype.Component
 public class MainWindow extends javax.swing.JFrame {
 
-	/**
-	 * serialVersion
-	 */
-	private static final long serialVersionUID = 4307777235040180150L;
-	@Autowired
-	private IMainController mainController;
+    /**
+     * serialVersion
+     */
+    private static final long serialVersionUID = 4307777235040180150L;
+    @Autowired
+    private IMainController mainController;
 
-	/**
-	 * Creates new form
-	 */
-	public MainWindow() {
-		setNimbus();
-		initComponents();
-	}
+    /**
+     * Creates new form
+     */
+    public MainWindow() {
+        setNimbus();
+        initComponents();
+    }
 
-	public MainWindow(IMainController mainController) {
-		this.mainController = mainController;
-		setNimbus();
-		initComponents();
-		//mainController.setRentWebItems("Tst");
-		this.mainController.getServerResponse(" ");
-		this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
-	}
+    public MainWindow(IMainController mainController) {
+        this.mainController = mainController;
+        setNimbus();
+        initComponents();
+        //mainController.setRentWebItems("Tst");
+        this.mainController.getServerResponse(" ");
+        this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
+    }
 
-	/**
-	 * Initialize the form.
-	 */
-	@SuppressWarnings("unchecked")
-	private void initComponents() {
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		setTitle("Grown");
-		getContentPane().setLayout(new MigLayout("", "[4px:6px:11px][100px:150px:180px,grow][8px:18:25px][grow][61px]",
-				"[2px:6px:11px][25px:25:25px][][2px:6px:11px][100px:386px,grow][25px:40:60]"));
+    /**
+     * Initialize the form.
+     */
+    @SuppressWarnings("unchecked")
+    private void initComponents() {
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Grown");
+        getContentPane().setLayout(new MigLayout("", "[4px:6px:11px][100px:150px:180px,grow][8px:18:25px][grow][61px]",
+                "[2px:6px:11px][25px:25:25px][][2px:6px:11px][100px:386px,grow][25px:40:60]"));
 
-		btnNewButton = new JButton("Status");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
-				DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent();
-				setCentralText(mainController.getItemInfo(new Long(rootNode.getIndex(nodeParent)),nodeParent.getIndex(node)));
-	               
-			}
-		});
-		getContentPane().add(btnNewButton, "flowx,cell 3 1");
+        btnNewButton = new JButton("Status");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
+                DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent();
+                setCentralText(mainController.getItemInfo(new Long(rootNode.getIndex(nodeParent)), nodeParent.getIndex(node)));
 
-		txtpnConsole = new JTextPane();
-		txtpnConsole.setBackground(SystemColor.controlHighlight);
-		txtpnConsole.setEditable(false);
-		txtpnConsole.setText("Console");
-		getContentPane().add(txtpnConsole, "cell 3 2,grow");
+            }
+        });
+        getContentPane().add(btnNewButton, "flowx,cell 3 1");
 
-		scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		getContentPane().add(scrollPane, "cell 1 4,grow");
+        txtpnConsole = new JTextPane();
+        txtpnConsole.setBackground(SystemColor.controlHighlight);
+        txtpnConsole.setEditable(false);
+        txtpnConsole.setText("Console");
+        getContentPane().add(txtpnConsole, "cell 3 2,grow");
 
-		rootNode = new DefaultMutableTreeNode("Network");
-		tree = new JTree(rootNode);
-		modelTree = (DefaultTreeModel) tree.getModel();
-		
-		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        scrollPane = new JScrollPane();
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        getContentPane().add(scrollPane, "cell 1 4,grow");
+
+        rootNode = new DefaultMutableTreeNode("Network");
+        tree = new JTree(rootNode);
+        modelTree = (DefaultTreeModel) tree.getModel();
+
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         //tree.addTreeSelectionListener(new TreeListener());
-		tree.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	                DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
-	                Boolean iSuperAdminPrivellages=rootNode.isNodeChild(node)||(node==rootNode);
-	                btnNewButton_3.setEnabled(!iSuperAdminPrivellages);
-	                btnNewButton_1.setEnabled(!iSuperAdminPrivellages);
-	                //selectedElement=node.toString();
-	               // node.removeAllChildren();
-	                //node.removeFromParent();
-	                //setCentralText(selectedElement);
-	                //if (node == null) return;
-	                //Object nodeInfo = node.getUserObject();
-	                if (e.getClickCount() == 2) {
-	                	//if 
-	                	//rootNode.remove(0);
-	                	//node.removeAllChildren();
-	                	//node.remove(0);
-	                	String reply=((MainController) mainController).getServerResponse((String)node.getUserObject());
-	                	setCentralText(reply);
-	                }
-	        }
-	    });
-//		tree.addTreeSelectionListener(new TreeSelectionListener() {
-//			public void valueChanged(TreeSelectionEvent e) {
-//				selectedElement=e.getPath().getLastPathComponent().toString();
-//				setCentralText(selectedElement);
-//			}
-//		});
-//		addToSelectedSubTree("test");
-//		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-//		model.insertNodeInto(new DefaultMutableTreeNode("another_child"), root, root.getChildCount());
-//		model.insertNodeInto(new DefaultMutableTreeNode("another_child"), root, root.getChildCount());
+        tree.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
+                Boolean iSuperAdminPrivellages = rootNode.isNodeChild(node) || (node == rootNode);
+                btnNewButton_3.setEnabled(!iSuperAdminPrivellages);
+                btnNewButton_1.setEnabled(!iSuperAdminPrivellages);
+                //selectedElement=node.toString();
+                // node.removeAllChildren();
+                //node.removeFromParent();
+                //setCentralText(selectedElement);
+                //if (node == null) return;
+                //Object nodeInfo = node.getUserObject();
+                if (e.getClickCount() == 2) {
+                    //if
+                    //rootNode.remove(0);
+                    //node.removeAllChildren();
+                    //node.remove(0);
+                    String reply = ((MainController) mainController).getServerResponse((String) node.getUserObject());
+                    setCentralText(reply);
+                }
+            }
+        });
+
 		
 		scrollPane.setViewportView(tree);
 
@@ -237,63 +228,65 @@ public class MainWindow extends javax.swing.JFrame {
 		dispose();
 	}// GEN-LAST:event_jButton1ActionPerformed
 
-	/**
-	 * TestComp
-	 * @param args
-	 *           
-	 */
-	private static void setNimbus() {
-		/* 
+
+    /**
+     * TestComp
+     *
+     * @param args
+     */
+    private static void setNimbus() {
+        /*
 		 * Set the Nimbus 
 		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		}
-		// </editor-fold>
-	}
-	public static void main(String args[]) {
-		
-		setNimbus();
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
+        }
+        // </editor-fold>
+    }
+
+    public static void main(String args[]) {
+
+        setNimbus();
 		/* Create and display the form */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new MainWindow().setVisible(true);
-			}
-		});
-	}
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainWindow().setVisible(true);
+            }
+        });
+    }
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton jButton1;
-	private javax.swing.JTextArea jTextArea1;
-	private JTree tree;
-	private JScrollPane scrollPane;
-	private JScrollPane scrollPane_1;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
-	private JTextPane txtpnConsole;
-	private DefaultTreeModel modelTree;
-	private DefaultMutableTreeNode rootNode;
-	private String selectedElement;
-	
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JTextArea jTextArea1;
+    private JTree tree;
+    private JScrollPane scrollPane;
+    private JScrollPane scrollPane_1;
+    private JButton btnNewButton;
+    private JButton btnNewButton_1;
+    private JButton btnNewButton_2;
+    private JButton btnNewButton_3;
+    private JTextPane txtpnConsole;
+    private DefaultTreeModel modelTree;
+    private DefaultMutableTreeNode rootNode;
+    private String selectedElement;
 
-	// End of variables declaration//GEN-END:variables
+
+    // End of variables declaration//GEN-END:variables
 }

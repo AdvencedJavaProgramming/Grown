@@ -4,6 +4,6 @@ import com.Polodz.controller.IController;
 
 public interface IFactory {
 
-	IDao create(IController arg);
+    IDao create(IController arg);
 
 }
