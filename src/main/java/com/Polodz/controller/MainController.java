@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.Polodz.View.MainWindow;
 import com.Polodz.model.MembersFactory;
 import com.Polodz.model.StringWebData;
+import com.Polodz.model.Config;
+import com.Polodz.model.IItem;
 import com.Polodz.model.IMember;
 import com.Polodz.model.MembersDAO;
 import com.Polodz.service.TelnetConnector;
@@ -39,13 +41,13 @@ public class MainController implements IMainController {
 	private MembersDAO membersDAO;
 	
 	@Autowired
-	public IController telentController;
+	private IController telentController;
 	
 	@Autowired
-	public WebMovieListController webDataHandler;
+	private WebMovieListController webDataHandler;
 	
 	@Autowired
-	public MainWindow mainView;
+	private MainWindow mainView;
 
 	
 	public MainController() {
@@ -130,7 +132,43 @@ public class MainController implements IMainController {
 
 	@Override
 	public void deleteMembersProduct(Long memberId,Integer index) {
-		this.membersDAO.getMembersAudience().get(memberId.intValue()).addItems().remove((int)index);
+		IMember delatingItemsMember = this.membersDAO.getMembersAudience().get(memberId.intValue());
+		this.getServerResponse(delatingItemsMember.getName()+ "delete");
+		delatingItemsMember.getItems().remove((int)index);
+	}
+
+	@Override
+	public String getItemInfo(Long memberId, int index) {
+		IItem chosenItem= this.membersDAO.getMembersAudience().get(memberId.intValue()).getItems().get(index);
+		String bufforToWork=null;
+		bufforToWork+="Status: \n Name: "+chosenItem.getName()+"\n";
+		bufforToWork+="Ticket price: "+chosenItem.getPrice()+"\n";
+		bufforToWork+="Audience: "+this.getServerResponse(chosenItem.getId().toString())+"\n";
+		//bufforToWork+="Rate: "+this.filmWebMovie.getRate()+"\n";
+		//bufforToWork+="Interested: "+this.filmWebMovie.getInterested()+"\n";
+		return bufforToWork;
+	}
+	
+	@Override
+	public String getAuditRaport() {
+		AuditRaport raport= new AuditRaport();
+		if (membersDAO.getMembersAudience()!=null)
+			membersDAO.getMembersAudience().parallelStream().forEach(
+					cur->{ 
+						if (cur.getItems()!=null)
+							cur.getItems().parallelStream().forEach(
+									current->{ 
+										try {
+											raport.addToAudience(Integer.valueOf(this.getServerResponse(current.getId().toString())));
+										} catch (Exception e) {
+											raport.addToErrorBuffor(current.getName()+" movie for id "+current.getId().toString()+ "\n");
+										}
+									});
+						
+					});
+		else return Config.NoAuditToShow.getMessage();
+		
+		return raport.getRaportText();
 		
 	}
 
