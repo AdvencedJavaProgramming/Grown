@@ -12,7 +12,7 @@ miglayout15-swing.jar
 miglayout-src.zip
 mvnw
 mvnw.cmd
-.iml
+*.iml
 =======
 *.class
 
