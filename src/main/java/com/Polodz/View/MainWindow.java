@@ -191,11 +191,11 @@ public class MainWindow extends javax.swing.JFrame {
 		btnNewButton_1 = new JButton("Return Product");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addToSelectedSubTree((String)getSelectedItemDefaultMutableTreeNode().getUserObject(),rootNode.getChildCount()-1);
-				modelTree.removeNodeFromParent(getSelectedItemDefaultMutableTreeNode());
-				//rootNode.remove(node);
-				//modelTree.nodeChanged(node);//
-				//modelTree.reload();
+				DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
+				DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent();
+				addToSelectedSubTree((String)node.getUserObject(),rootNode.getChildCount()-1);
+				mainController.deleteMembersProduct(new Long(rootNode.getIndex(nodeParent)),nodeParent.getIndex(node));
+				modelTree.removeNodeFromParent(node);
 			}
 		});
 

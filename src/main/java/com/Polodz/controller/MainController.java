@@ -2,6 +2,7 @@ package com.Polodz.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import com.Polodz.service.WebService;
 
 @Configuration
 @org.springframework.stereotype.Controller
-//@Service("mainControlerService")!!!!
-//@ComponentScan("com.Polodz.model")
 public class MainController implements IMainController {
     private static final Logger log = Logger.getLogger(MainController.class.getName());
 
@@ -36,7 +35,6 @@ public class MainController implements IMainController {
 
 
     public MainController() {
-        //this.setRentWebItems("test");
     }
 
     public MembersDAO getMembersDAO() {
@@ -55,11 +53,6 @@ public class MainController implements IMainController {
         this.telnetController = telentController;
     }
 
-	/*@Bean
-    public WebMovieListController getWebMovieListController() {
-		return new WebMovieListController();
-    }*/
-
     @Bean
     public MainWindow getView() {
         if (mainView == null) {
@@ -75,9 +68,7 @@ public class MainController implements IMainController {
                                 for (IItem current : cur.getItems()) {
                                     mainView.addToSelectedSubTree(current.getName()
                                             , currentIndex);
-                                    //if(currentName == "Main_Store") {
                                     webStringBuffor += current.getName() + "\n";
-                                    //}
                                 }
                             if (webStringBuffor != null) {
                                 this.setRentWebItems(webStringBuffor);
@@ -90,7 +81,7 @@ public class MainController implements IMainController {
     }
 
     public void setRentWebItems(String input) {
-        webDataHandler.setMovieListString(input);
+        this.webDataHandler.setMovieListString(input);
     }
 
     public String getServerResponse(String input) {
@@ -111,13 +102,10 @@ public class MainController implements IMainController {
         IMember delatingItemsMember = this.membersDAO.getMembersAudience().get(memberId.intValue());
         this.getServerResponse(delatingItemsMember.getName() + "delete");
         delatingItemsMember.getItems().remove((int) index);
-        StringBuilder b = new StringBuilder();
-//		b.append("\n");
-//		this.membersDAO.getALL()[getMembersAudience().size()]
-//				.getItems().stream().forEach(b::append);
-//		
-//		this.membersDAO.getALL()[membersDAO.getMembersAudience().size()].getItems().stream().
-//		map (i -> i.getName()).collect (Collectors.joining ("\n"));
+        log.info(this.membersDAO.getALL()[membersDAO.getMembersAudience().size()-1]
+        		.getItems().stream().map (i -> i.getName()).collect (Collectors.joining ("\n")));
+        this.setRentWebItems(this.membersDAO.getALL()[membersDAO.getMembersAudience().size()-1]
+        		.getItems().stream().map (i -> i.getName()).collect (Collectors.joining ("\n")));
     }
 
     @Override

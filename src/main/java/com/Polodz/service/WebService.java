@@ -11,14 +11,14 @@ import java.util.List;
 @Service
 public class WebService {
 
-    private static String movieListString;
+    private String movieListString;
 
     public List<String> getMovieListString() {
         List<String> movieList = Arrays.asList(movieListString.split("\\n"));
         return movieList;
     }
 
-    public static void setMovieListString(String value) {
+    public void setMovieListString(String value) {
         movieListString = value;
     }
 
