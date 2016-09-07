@@ -89,7 +89,8 @@ public class MainWindow extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent e) {
                 DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
                 Boolean iSuperAdminPrivellages = rootNode.isNodeChild(node) || (node == rootNode);
-                btnNewButton_3.setEnabled(!iSuperAdminPrivellages);
+                btnNewButton.setEnabled(!iSuperAdminPrivellages);
+                btnNewButton_2.setEnabled(!iSuperAdminPrivellages);
                 btnNewButton_1.setEnabled(!iSuperAdminPrivellages);
 //                if (e.getClickCount() == 2) {;
 //                    String reply = ((MainController) mainController).getServerResponse((String) node.getUserObject());
@@ -195,7 +196,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 	public void setCentralText(String text) {
 
-		jTextArea1.setText(jTextArea1.getText() + text);
+		jTextArea1.setText(jTextArea1.getText() +text+"\n");
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
