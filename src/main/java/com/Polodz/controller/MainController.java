@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -63,7 +64,6 @@ public class MainController implements IMainController {
                         cur -> {
                             String currentName = cur.getName();
                             String webStringBuffor = "";
-                            log.info(currentName);
                             int currentIndex = mainView.addToTree(currentName);
                             if (cur.getItems() != null)
                                 for (IItem current : cur.getItems()) {
@@ -71,13 +71,12 @@ public class MainController implements IMainController {
                                             , currentIndex);
                                     webStringBuffor += current.getName() + "\n";
                                 }
-                            if (webStringBuffor != null) {
+                            if (StringUtils.isNotBlank(webStringBuffor)) {
                                 this.setRentWebItems(webStringBuffor);
                             }
                         }
                 );
         }
-        log.info(membersDAO.getALL().length);
         return this.mainView;
     }
 
@@ -112,7 +111,7 @@ public class MainController implements IMainController {
     @Override
     public String getItemInfo(Long memberId, int index) {
         IItem chosenItem = this.membersDAO.getMembersAudience().get(memberId.intValue()).getItems().get(index);
-        String bufforToWork = null;
+        String bufforToWork = "";
         bufforToWork += "Status: \n Name: " + chosenItem.getName() + "\n";
         bufforToWork += "Ticket price: " + chosenItem.getPrice() + "\n";
         bufforToWork += "Audience: " + this.getServerResponse(chosenItem.getId().toString()) + "\n";

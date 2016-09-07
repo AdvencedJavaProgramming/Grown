@@ -46,7 +46,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.mainController = mainController;
         setNimbus();
         initComponents();
-        this.mainController.getServerResponse(" ");
+        this.mainController.getServerResponse("w");
         this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
     }
 
@@ -91,10 +91,10 @@ public class MainWindow extends javax.swing.JFrame {
                 Boolean iSuperAdminPrivellages = rootNode.isNodeChild(node) || (node == rootNode);
                 btnNewButton_3.setEnabled(!iSuperAdminPrivellages);
                 btnNewButton_1.setEnabled(!iSuperAdminPrivellages);
-                if (e.getClickCount() == 2) {;
-                    String reply = ((MainController) mainController).getServerResponse((String) node.getUserObject());
-                    setCentralText(reply);
-                }
+//                if (e.getClickCount() == 2) {;
+//                    String reply = ((MainController) mainController).getServerResponse((String) node.getUserObject());
+//                    setCentralText(reply);
+//                }
             }
         });
 
