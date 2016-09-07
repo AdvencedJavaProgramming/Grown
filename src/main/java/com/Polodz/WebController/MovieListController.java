@@ -1,8 +1,9 @@
-package com.Polodz.webController;
+package com.Polodz.WebController;
 
 import com.Polodz.service.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,14 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @Controller
-public class WebMovieListController {
+public class MovieListController {
 
-	@Autowired
-	private WebService service;
+    @Autowired
+    private WebService service;
 
-	@GetMapping("/movieList")
-	public ModelAndView getMovieList() {
-		return new ModelAndView("movieList").addObject("string", service.getMovieListString());
-	}
+    @GetMapping("/movieList")
+    public ModelAndView getMovieList() {
+        return new ModelAndView("movieList").addObject("string", service.getMovieListString());
+    }
 
 }
