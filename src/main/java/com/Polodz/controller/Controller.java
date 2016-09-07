@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 import com.Polodz.service.ITelnet;
 import com.Polodz.service.TelnetConnector;
 
-//@Component
 public class Controller implements IController {
+	
     private String lastListing;
-    private ITelnet connector;//= new TelnetConnector();
+    private ITelnet connector;
 
     public Controller() {
     }
@@ -28,5 +28,5 @@ public class Controller implements IController {
     public String getLastListing() {
         return this.lastListing;
     }
-
+    
 }

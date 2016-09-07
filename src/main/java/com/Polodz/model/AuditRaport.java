@@ -1,11 +1,11 @@
-package com.Polodz.controller;
+package com.Polodz.model;
 
 import java.io.Serializable;
 
 public class AuditRaport implements Serializable {
 
-    /**
-     *
+    /** Class to save audit of network.
+     * @author Tomasz Menet
      */
     private static final long serialVersionUID = 5823829955504180090L;
 

@@ -3,6 +3,10 @@ package com.Polodz.model;
 import java.util.List;
 
 public class Member implements IMember {
+	/* *
+	 * Member of Network
+	 * @author Thomas Menet
+	 **/
     private String name;
     private int id;
     private List<IItem> items;
@@ -34,4 +38,5 @@ public class Member implements IMember {
     public void setItems(List<IItem> sims) {
         this.items = sims;
     }
+    
 }

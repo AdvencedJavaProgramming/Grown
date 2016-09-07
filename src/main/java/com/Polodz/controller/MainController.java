@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.Polodz.View.MainWindow;
+import com.Polodz.model.AuditRaport;
 import com.Polodz.model.Config;
 import com.Polodz.model.IItem;
 import com.Polodz.model.IMember;

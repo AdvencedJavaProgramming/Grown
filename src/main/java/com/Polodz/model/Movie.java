@@ -21,13 +21,11 @@ public class Movie implements IItem {
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
         return this.name;
     }
 
     @Override
     public Long getId() {
-        // TODO Auto-generated method stub
         return this.id;
     }
 

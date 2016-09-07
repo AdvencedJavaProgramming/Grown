@@ -13,10 +13,7 @@ public class CustomTelnetDeserializer implements Deserializer<String> {
 
     /**
      * Deserilize stream by socket Capacity to String
-     *
-     * @param inputStream
-     * @return
-     * @throws IOException
+     * 
      */
     public String deserialize(InputStream inputStream) throws IOException {
         return handshakeStreamToString(inputStream);

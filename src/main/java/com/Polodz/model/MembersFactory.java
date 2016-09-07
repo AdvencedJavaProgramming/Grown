@@ -1,21 +1,14 @@
 package com.Polodz.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-
-import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 
-import com.Polodz.controller.Controller;
 import com.Polodz.controller.IController;
 
-@Component("BtcsFactory")
 public class MembersFactory<T extends IDao> implements IFactory {
     private static final Logger log = Logger.getLogger(MembersFactory.class.getName());
 
@@ -45,14 +38,11 @@ public class MembersFactory<T extends IDao> implements IFactory {
         }
         arg.execute(" ");
         String membersNameList = arg.execute("list");
-        //log.info(membersNameList+"Spis");
         String[] memberNameSourceLine = membersNameList.split("\\r?\\n");
         for (int i = 0; i < memberNameSourceLine.length; i++) {
             String memmbersName = memberNameSourceLine[i].split(" ")[0];
-            //log.info(memmbersName);
             Member memberToAdd = new Member();
             String itemsMemeber = arg.execute(memmbersName);
-            //log.info(memmbersName+itemsMemeber);
             List<IItem> newMemebersBasket = new ArrayList<>();
             memberToAdd.setItems(newMemebersBasket);
             if (itemsMemeber != null) {
@@ -62,12 +52,8 @@ public class MembersFactory<T extends IDao> implements IFactory {
                     toAdd.setName(itemNameProperties[0]);
                     toAdd.setId(new Long(itemNameProperties[1]));
                     memberToAdd.addItems().add(toAdd);
-                    //log.info(itemName);
                 });
             }
-            //memberToAdd.getItems().forEach(action);
-            //log.info(((Movie) memberToAdd.addItems().get(0)).getName()+"TOOOO");
-            //log.info(memberToAdd.getItems().get(0).getName());
             memberToAdd.setId(i);
             memberToAdd.setName(memmbersName);
             result.addNode(memberToAdd);

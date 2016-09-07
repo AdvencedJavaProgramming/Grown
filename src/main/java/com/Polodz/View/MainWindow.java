@@ -1,11 +1,9 @@
 package com.Polodz.View;
 
-
 import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -14,7 +12,6 @@ import javax.swing.JTextPane;
 import java.awt.SystemColor;
 
 import net.miginfocom.swing.MigLayout;
-import scala.annotation.meta.setter;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -23,17 +20,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.Polodz.controller.IMainController;
 import com.Polodz.controller.MainController;
 
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-
-
-//@org.springframework.stereotype.Component
 public class MainWindow extends javax.swing.JFrame {
 
     /**
@@ -55,7 +46,6 @@ public class MainWindow extends javax.swing.JFrame {
         this.mainController = mainController;
         setNimbus();
         initComponents();
-        //mainController.setRentWebItems("Tst");
         this.mainController.getServerResponse(" ");
         this.setCentralText(((MainController) mainController).getLastServerResponse() + "\n");
     }
@@ -63,7 +53,6 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Initialize the form.
      */
-    @SuppressWarnings("unchecked")
     private void initComponents() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Grown");
@@ -96,24 +85,13 @@ public class MainWindow extends javax.swing.JFrame {
         modelTree = (DefaultTreeModel) tree.getModel();
 
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        //tree.addTreeSelectionListener(new TreeListener());
         tree.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
                 Boolean iSuperAdminPrivellages = rootNode.isNodeChild(node) || (node == rootNode);
                 btnNewButton_3.setEnabled(!iSuperAdminPrivellages);
                 btnNewButton_1.setEnabled(!iSuperAdminPrivellages);
-                //selectedElement=node.toString();
-                // node.removeAllChildren();
-                //node.removeFromParent();
-                //setCentralText(selectedElement);
-                //if (node == null) return;
-                //Object nodeInfo = node.getUserObject();
-                if (e.getClickCount() == 2) {
-                    //if
-                    //rootNode.remove(0);
-                    //node.removeAllChildren();
-                    //node.remove(0);
+                if (e.getClickCount() == 2) {;
                     String reply = ((MainController) mainController).getServerResponse((String) node.getUserObject());
                     setCentralText(reply);
                 }
@@ -148,7 +126,6 @@ public class MainWindow extends javax.swing.JFrame {
 						setCentralText("\n" + ((MainController) mainController).getServerResponse(text));
 
 					} catch (BadLocationException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -181,9 +158,6 @@ public class MainWindow extends javax.swing.JFrame {
 				DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent();
 				mainController.deleteMembersProduct(new Long(rootNode.getIndex(nodeParent)),nodeParent.getIndex(node));
 				modelTree.removeNodeFromParent(node);
-				//rootNode.remove(node);
-				//modelTree.nodeChanged(node);//
-				//modelTree.reload();
 			}
 		});
 		getContentPane().add(btnNewButton_2, "cell 3 1");
@@ -285,7 +259,6 @@ public class MainWindow extends javax.swing.JFrame {
     private JTextPane txtpnConsole;
     private DefaultTreeModel modelTree;
     private DefaultMutableTreeNode rootNode;
-    private String selectedElement;
 
 
     // End of variables declaration//GEN-END:variables

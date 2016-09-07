@@ -1,6 +1,7 @@
 package com.Polodz.model;
 
 public enum Config {
+	
     MovieTicketCost(12.0),
     NoAuditToShow("No any avalible Networ");
     private Double value;
@@ -25,4 +26,5 @@ public enum Config {
     public String getMessage() {
         return message;
     }
+    
 }
