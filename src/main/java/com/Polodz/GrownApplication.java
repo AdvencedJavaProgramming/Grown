@@ -22,16 +22,16 @@ import org.slf4j.LoggerFactory;
 @ImportResource("file:src/Grown-mainContext.xml")
 public class GrownApplication {
 
-	public static void main(String[] args) {
-		//SpringApplication.run();
-		//Banner.Mode bannerMode= new Banner.Mode(OFF);
-		new SpringApplicationBuilder(GrownApplication.class)
-        .headless(false)
-        .web(true) 
-        //.bannerMode(Banner.Mode.OFF)
-        .run(args);
-	}
-	
+    public static void main(String[] args) {
+        //SpringApplication.run();
+        //Banner.Mode bannerMode= new Banner.Mode(OFF);
+        new SpringApplicationBuilder(GrownApplication.class)
+                .headless(false)
+                .web(true)
+                //.bannerMode(Banner.Mode.OFF)
+                .run(args);
+    }
+
 //	@Bean
 //    public MainController frame() {
 //        return new MainController();

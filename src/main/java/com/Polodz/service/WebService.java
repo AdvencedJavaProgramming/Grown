@@ -11,15 +11,15 @@ import java.util.List;
 @Service
 public class WebService {
 
-	private static String movieListString;
+    private static String movieListString;
 
-	public List<String> getMovieListString() {
-		List<String> movieList = Arrays.asList(movieListString.split("\\n"));
-		return movieList;
-	}
+    public List<String> getMovieListString() {
+        List<String> movieList = Arrays.asList(movieListString.split("\\n"));
+        return movieList;
+    }
 
-	public static void setMovieListString(String value) {
-		movieListString = value;
-	}
+    public static void setMovieListString(String value) {
+        movieListString = value;
+    }
 
 }
