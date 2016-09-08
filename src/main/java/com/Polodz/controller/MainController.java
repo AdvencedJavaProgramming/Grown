@@ -99,24 +99,15 @@ public class MainController implements IMainController {
     }
     
     public void returnItemTo(Long memberIdFrom, Integer indexItemFrom) {
-    	IItem cacheMoveItem = this.findItem(memberIdFrom, indexItemFrom);
+    	IItem cacheMoveItem = this.findItemFromDao(memberIdFrom, indexItemFrom);
     	this.deleteMembersProduct(memberIdFrom, indexItemFrom);
-    	this.insertMemberProduct(cacheMoveItem,(long)this.memberById(new Long(this.getMembersDAO().getALL().length-1)).getId());
-    }
-    
-    private IItem findItem(Long memberId, Integer indexItem) {
-        IMember delatingItemsMember = this.memberById(memberId);
-  		return delatingItemsMember.getItems().get(indexItem);
-    }
-    
-    private IMember memberById(Long memberId) {
-    	return this.membersDAO.getMembersAudience().get(memberId.intValue());
+    	this.insertMemberProduct(cacheMoveItem,(long)this.memberByIdFromDao(new Long(this.getMembersDAO().getALL().length-1)).getId());
     }
 
     @Override
     public void deleteMembersProduct(Long memberId, Integer indexItem) {
-    	IMember delatingItemsMember = this.memberById(memberId);
-        this.getServerResponse("delete"+findItem(memberId,indexItem));
+    	IMember delatingItemsMember = this.memberByIdFromDao(memberId);
+        this.getServerResponse("delete"+findItemFromDao(memberId,indexItem));
         delatingItemsMember.getItems().remove((int) indexItem);
         if (this.membersDAO.getMembersAudience().size()-1==memberId) 
         	this.refreshWeb();
@@ -169,6 +160,15 @@ public class MainController implements IMainController {
     private void refreshWeb() {
     	this.setRentWebItems(this.membersDAO.getALL()[membersDAO.getMembersAudience().size()-1]
         		.getItems().stream().map (i -> i.getName()).collect (Collectors.joining ("\n")));
+    }
+    
+    public IItem findItemFromDao(Long memberId, Integer indexItem) {
+        IMember foundItemsMember = this.memberByIdFromDao(memberId);
+  		return foundItemsMember.getItems().get(indexItem);
+    }
+    
+    public IMember memberByIdFromDao(Long memberId) {
+    	return this.membersDAO.getMembersAudience().get(memberId.intValue());
     }
 
 }
