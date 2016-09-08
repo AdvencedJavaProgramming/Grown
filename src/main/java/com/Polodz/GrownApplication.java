@@ -18,22 +18,14 @@ import org.slf4j.LoggerFactory;
 
 @SpringBootApplication
 @Configuration
-//@EnableAutoConfiguration//(exclude = WebMvcAutoConfiguration.class)
 @ImportResource("file:src/Grown-mainContext.xml")
 public class GrownApplication {
-
-	public static void main(String[] args) {
-		//SpringApplication.run();
-		//Banner.Mode bannerMode= new Banner.Mode(OFF);
-		new SpringApplicationBuilder(GrownApplication.class)
-        .headless(false)
-        .web(true) 
-        //.bannerMode(Banner.Mode.OFF)
-        .run(args);
-	}
 	
-//	@Bean
-//    public MainController frame() {
-//        return new MainController();
-//    }
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(GrownApplication.class)
+                .headless(false)
+                .web(true)
+                .run(args);
+    }
+    
 }	

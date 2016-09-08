@@ -27,15 +27,11 @@ import java.util.List;
 @ContextConfiguration(locations={"file:src/test/resources/Grown-mainContext.xml"}, loader=CustomSpringApplicationContextLoader.class)
 @SpringBootTest
 @Configuration
-//@ActiveProfiles("test")
 public class GrownApplicationTests {
 
 	@Autowired
 	private MainController mainControler;
 
-//	@Autowired
-//	private MembersDAO mtcDAO;
-//	private BeanFactory BeanFactory;
 	@Mock
 	private ITelnet telnetHandler;
 	
@@ -48,7 +44,6 @@ public class GrownApplicationTests {
 		when(telnetHandler.get("list")).thenReturn("test\ntest1\ntest2\ntest3\ntest4\ntest5");
 		when(telnetHandler.get("test")).thenReturn("mtest 1\nmtest1 2\nmtest2 3\nmtest3 4\nmtest4 5\nmtest5 6");
 		reset(telnetHandler);
-		//BeanFactory= context.getBean(BeanFactory.class);
 	}
 
 	@Test
@@ -58,7 +53,6 @@ public class GrownApplicationTests {
 		Assert.assertEquals(mainControler.listAll().size(), 6);
 		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test1");
 		Assert.assertEquals(mainControler.listAll().get(1).getItems().get(1).getName(),"mtest1");
-		//Assert.assertEquals(BeanFactory.getObjectType(), DAO.class);
 	}
 	
 	
