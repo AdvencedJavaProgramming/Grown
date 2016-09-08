@@ -169,7 +169,7 @@ public class MainWindow extends javax.swing.JFrame {
 				DefaultMutableTreeNode node = getSelectedItemDefaultMutableTreeNode();
 				DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent();
 				addToSelectedSubTree((String)node.getUserObject(),rootNode.getChildCount()-1);
-				mainController.deleteMembersProduct(new Long(rootNode.getIndex(nodeParent)),nodeParent.getIndex(node));
+				((MainController) mainController).returnItemTo(new Long(rootNode.getIndex(nodeParent)),nodeParent.getIndex(node));
 				modelTree.removeNodeFromParent(node);
 			}
 		});
