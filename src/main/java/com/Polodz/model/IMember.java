@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface IMember {
 
+	public Integer getId();
+	
     void setName(String bscName);
 
     List<? extends IItem> getItems();

@@ -16,6 +16,7 @@ import com.Polodz.model.Config;
 import com.Polodz.model.IItem;
 import com.Polodz.model.IMember;
 import com.Polodz.model.MembersDAO;
+import com.Polodz.model.Movie;
 import com.Polodz.service.WebService;
 
 @Configuration
@@ -96,17 +97,30 @@ public class MainController implements IMainController {
         return Arrays.asList(membersDAO.getALL());
 
     }
+    
+    public void returnItemTo(Long memberIdFrom, Integer indexItemFrom) {
+    	IItem cacheMoveItem = this.findItemFromDao(memberIdFrom, indexItemFrom);
+    	this.deleteMembersProduct(memberIdFrom, indexItemFrom);
+    	this.insertMemberProduct(cacheMoveItem,(long)this.memberByIdFromDao(new Long(this.getMembersDAO().getALL().length-1)).getId());
+    }
 
     @Override
-    public void deleteMembersProduct(Long memberId, Integer index) {
-        IMember delatingItemsMember = this.membersDAO.getMembersAudience().get(memberId.intValue());
-        this.getServerResponse(delatingItemsMember.getName() + "delete");
-        delatingItemsMember.getItems().remove((int) index);
-        log.info(this.membersDAO.getALL()[membersDAO.getMembersAudience().size()-1]
-        		.getItems().stream().map (i -> i.getName()).collect (Collectors.joining ("\n")));
-        this.setRentWebItems(this.membersDAO.getALL()[membersDAO.getMembersAudience().size()-1]
-        		.getItems().stream().map (i -> i.getName()).collect (Collectors.joining ("\n")));
+    public void deleteMembersProduct(Long memberId, Integer indexItem) {
+    	IMember delatingItemsMember = this.memberByIdFromDao(memberId);
+        this.getServerResponse("delete"+findItemFromDao(memberId,indexItem));
+        delatingItemsMember.getItems().remove((int) indexItem);
+        if (this.membersDAO.getMembersAudience().size()-1==memberId) 
+        	this.refreshWeb();
     }
+    
+    @Override
+    public void insertMemberProduct(IItem itemToMove,Long memberIdDestination) {
+        IMember addingItemsMember = this.membersDAO.getMembersAudience().get(memberIdDestination.intValue());
+        this.getServerResponse("move" +itemToMove.getId() + " " +addingItemsMember.getId());
+        addingItemsMember.addItems().add((Movie) itemToMove);
+        if (this.membersDAO.getMembersAudience().size()-1==memberIdDestination)
+        	this.refreshWeb();
+    }   
 
     @Override
     public String getItemInfo(Long memberId, int index) {
@@ -141,6 +155,20 @@ public class MainController implements IMainController {
 
         return raport.getRaportText();
 
+    }
+    
+    private void refreshWeb() {
+    	this.setRentWebItems(this.membersDAO.getALL()[membersDAO.getMembersAudience().size()-1]
+        		.getItems().stream().map (i -> i.getName()).collect (Collectors.joining ("\n")));
+    }
+    
+    public IItem findItemFromDao(Long memberId, Integer indexItem) {
+        IMember foundItemsMember = this.memberByIdFromDao(memberId);
+  		return foundItemsMember.getItems().get(indexItem);
+    }
+    
+    public IMember memberByIdFromDao(Long memberId) {
+    	return this.membersDAO.getMembersAudience().get(memberId.intValue());
     }
 
 }

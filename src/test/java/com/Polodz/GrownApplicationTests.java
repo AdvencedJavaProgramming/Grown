@@ -18,6 +18,7 @@ import com.Polodz.model.IItem;
 import com.Polodz.service.ITelnet;
 import com.Polodz.service.TelnetConnector;
 
+import org.apache.hadoop.mapred.gethistory_jsp;
 import org.junit.Assert;
 import static org.mockito.Mockito.*;
 
@@ -50,9 +51,7 @@ public class GrownApplicationTests {
 	public void membersLoad() {
 		this.serverResponse();
 		Assert.assertNotNull(mainControler.getMembersDAO().getMembersAudience());
-		Assert.assertEquals(mainControler.listAll().size(), 6);
-		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test1");
-		Assert.assertEquals(mainControler.listAll().get(1).getItems().get(1).getName(),"mtest1");
+		this.listAll();
 	}
 	
 	
@@ -60,8 +59,25 @@ public class GrownApplicationTests {
 		Assert.assertEquals(mainControler.getServerResponse("list"), "test\ntest1\ntest2\ntest3\ntest4\ntest5");
 	}
 	
+	public void listAll() {
+		Assert.assertEquals(mainControler.listAll().size(), 6);
+		Assert.assertEquals(mainControler.listAll().get(1).getName(), "test1");
+		Assert.assertEquals(mainControler.listAll().get(1).getItems().get(1).getName(),"mtest1");
+	}
+	
 	@Test
-	public void deleteMemberProduct() {
+	public void returnItemTo() {
+		mainControler.returnItemTo(new Long(0), 2);
+		this.findItem();
+	}
+	
+	public void findItem() {
+		Integer mainStorId = mainControler.getMembersDAO().getMembersAudience().size() - 1;
+		Assert.assertEquals(mainControler.findItemFromDao(new Long(mainStorId), 6).getId(), new Long(3));
+	}
+	
+	@Test
+	public void MemberDeleteProduct() {
 		Integer idOfFiredMember= mainControler.listAll().size()-1;
 		List<? extends IItem> basket = mainControler.getMembersDAO().getMembersAudience().get(idOfFiredMember).getItems();
 		Integer lastBasketSize = basket.size() - 2;
@@ -69,6 +85,7 @@ public class GrownApplicationTests {
 		mainControler.deleteMembersProduct (new Long(idOfFiredMember),4);
 		Assert.assertEquals(lastBasketSize,new Integer(basket.size()));
 	}
+	
 	
 	@Bean
 	@Primary
