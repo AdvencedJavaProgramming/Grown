@@ -146,7 +146,7 @@ public class MainController implements IMainController {
                                         try {
                                             raport.addToAudience(Integer.valueOf(this.getServerResponse(current.getId().toString())));
                                         } catch (Exception e) {
-                                            raport.addToErrorBuffor(current.getName() + "movie for id " + current.getId().toString() + "\n");
+                                            raport.addToErrorBuffor(current.getName() + " for id " + current.getId().toString() + "\n");
                                         }
                                     });
 

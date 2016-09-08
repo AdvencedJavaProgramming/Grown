@@ -9,7 +9,7 @@ public class AuditRaport implements Serializable {
      */
     private static final long serialVersionUID = 5823829955504180090L;
 
-    private final String epiloque = "Full incomin: \n";
+    private final String epiloque = "Full incoming: \n";
     private Integer numberOfFullAudience = 0;
 
     private String errorBuffor = "Warning for: \n";
@@ -31,9 +31,9 @@ public class AuditRaport implements Serializable {
     }
 
     public String getRaportText() {
-        String text = this.epiloque + this.getNumberOfFullAudience() + "\n";
+        String text = this.epiloque + this.getNumberOfFullAudience() + "$ \n";
         if (errorBuffor.length() != "Warning for: \n".length())
-            text += this.errorBuffor + " are corrupted. Please restart application. If problem would occure more times please conntact superadmin";
+            text += this.errorBuffor + "are corrupted. Please restart application. If problem would occure more times please conntact superadmin";
         return text;
     }
 
