@@ -31,7 +31,7 @@ public class AuditRaport implements Serializable {
     }
 
     public String getRaportText() {
-        String text = this.epiloque + this.getNumberOfFullAudience() + "$ \n";
+        String text = this.epiloque + this.getNumberOfFullAudience()*Config.MovieTicketCost.getCost() + "$ \n";
         if (errorBuffor.length() != "Warning for: \n".length())
             text += this.errorBuffor + "are corrupted. Please restart application. If problem would occure more times please conntact superadmin";
         return text;
